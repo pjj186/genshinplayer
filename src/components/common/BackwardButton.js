@@ -8,10 +8,10 @@ const BackwardButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  font-size: 25px;
+  font-size: 18px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 1); // 그림자 나중에 수정
   cursor: pointer;
 `;
