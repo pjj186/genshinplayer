@@ -26,9 +26,9 @@ const PlayButton = () => {
   return (
     <PlayButtonContainer onClick={onClickPlay}>
       {isPlay ? (
-        <FontAwesomeIcon icon={faPlay} />
-      ) : (
         <FontAwesomeIcon icon={faPause} />
+      ) : (
+        <FontAwesomeIcon icon={faPlay} />
       )}
     </PlayButtonContainer>
   );
