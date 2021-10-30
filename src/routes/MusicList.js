@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "../components/common/Header";
+import RaidenBox from "../components/RaidenBox";
 
 const Container = styled.div`
   display: flex;
@@ -52,7 +53,9 @@ const MusicList = () => {
             <span>Genshin Music</span>
           </Title>
         </Header>
-        <ListBox></ListBox>
+        <ListBox>
+          <RaidenBox />
+        </ListBox>
       </Player>
     </Container>
   );
