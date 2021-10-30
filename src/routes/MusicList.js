@@ -9,10 +9,11 @@ const Player = styled.div`
   position: relative;
   margin: 0 auto;
   /* transform: translateY(50%); */
-  background-color: wheat;
+  background-color: white;
   width: 350px;
   height: 500px;
   border-radius: 15px;
+  border: 1px solid black;
 `;
 
 const MusicList = () => {

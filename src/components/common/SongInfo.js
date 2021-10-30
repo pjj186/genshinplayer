@@ -9,8 +9,8 @@ const SongInfoContainer = styled.div`
   bottom: 110px;
 `;
 
-const SongInfo = () => {
-  return <SongInfoContainer></SongInfoContainer>;
+const SongInfo = ({ children }) => {
+  return <SongInfoContainer>{children}</SongInfoContainer>;
 };
 
 export default SongInfo;

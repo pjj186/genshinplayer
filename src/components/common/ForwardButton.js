@@ -16,10 +16,10 @@ const ForwardButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const ForwardButton = () => {
+const ForwardButton = ({ playMusic }) => {
   return (
     <ForwardButtonContainer>
-      <FontAwesomeIcon icon={faForward} />
+      <FontAwesomeIcon icon={faForward} onClick={playMusic} />
     </ForwardButtonContainer>
   );
 };
