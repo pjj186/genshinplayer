@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import localforage from "localforage";
 import { storageService } from "../fbase";
-import { getDownloadURL, listAll, ref } from "@firebase/storage";
+import { getDownloadURL, listAll, ref, getMetadata } from "@firebase/storage";
 import Header from "../components/common/Header";
 
 const Container = styled.div`
@@ -62,14 +62,14 @@ const MusicPlay = () => {
     });
   };
 
-  const getMusicFile = async () => {
+  const getMusicFile = async (number) => {
     // 음악 선택
-    const musicRef = ref(
-      storageService,
-      "RaidenShogunBattleTheme(Phase 2).mp3"
-    );
-    const musiclist = await listAll(musicRef);
-    console.log(musiclist);
+    const listRef = ref(storageService);
+    const list = await listAll(listRef);
+    const filename = list.items[0].name; // 파일이름 가져오기
+
+    const musicRef = ref(storageService, filename);
+    const meta = await getMetadata(musicRef); // 지금 선택된 file 레퍼런스의 메타데이터 가져오기
     const url = await getDownloadURL(musicRef);
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
@@ -77,7 +77,7 @@ const MusicPlay = () => {
       const blob = xhr.response;
       console.log(blob);
       localforage.setItem(MUSIC_LF, {
-        name: "음악파일.mp4",
+        name: meta.name,
         file: blob,
       });
     };
