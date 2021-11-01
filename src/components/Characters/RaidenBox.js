@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { storageService } from "../fbase";
-import { getDownloadURL, ref } from "@firebase/storage";
+import { storageService } from "../../fbase";
+import { getDownloadURL, ref, getMetadata, listAll } from "@firebase/storage";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-regular-svg-icons";
+import localforage from "localforage";
 
 const Container = styled.div`
   display: flex;
@@ -33,7 +34,11 @@ const Icon = styled.div`
 `;
 
 const RaidenBox = () => {
+  const MUSIC_LF = "currentmusic";
   const [imgSrc, setImgSrc] = useState("");
+  const RAIDEN = 0;
+
+  // 이미지를 받아온다.
   const getImgFile = async () => {
     const imgRef = ref(storageService, "images/raiden.png");
     const url = await getDownloadURL(imgRef);
@@ -43,20 +48,51 @@ const RaidenBox = () => {
       const blob = xhr.response;
       console.log(blob);
     };
-    console.log(url);
     xhr.open("GET", url);
     xhr.send();
     setImgSrc(url);
   };
+  getImgFile(); // 이미지 받아오는 함수 호출
 
-  getImgFile();
+  // 음악을 받아옵니다.
+
+  const getMusicFile = async () => {
+    // 음악 선택
+    const listRef = ref(storageService);
+    const list = await listAll(listRef);
+    const filename = list.items[RAIDEN].name; // 파일이름 가져오기
+
+    const musicRef = ref(storageService, filename);
+    const meta = await getMetadata(musicRef); // 지금 선택된 file 레퍼런스의 메타데이터 가져오기
+    const url = await getDownloadURL(musicRef);
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "blob";
+    xhr.onload = function (event) {
+      const blob = xhr.response;
+      console.log(blob);
+      localforage.setItem(MUSIC_LF, {
+        name: meta.name,
+        file: blob,
+      });
+    };
+    console.log(url);
+    xhr.open("GET", url);
+    xhr.send();
+  };
 
   return (
     <Container>
       <AvatarImg src={imgSrc} alt="Avatar" />
       <TextBox>Raiden Shogun</TextBox>
-      <Link to="/play">
-        <Icon>
+      <Link
+        to={{
+          pathname: `/play`,
+          state: {
+            imgSrc,
+          },
+        }}
+      >
+        <Icon onClick={getMusicFile}>
           <FontAwesomeIcon icon={faPlayCircle} />
         </Icon>
       </Link>

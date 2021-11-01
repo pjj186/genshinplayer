@@ -6,19 +6,28 @@ const AvatarContainer = styled.div`
   justify-content: center;
   padding-top: 50px;
 `;
-const Image = styled.div`
+const AvatarImage = styled.div`
+  display: flex;
   background-color: white;
   width: 200px;
   height: 200px;
-  border-radius: 25px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
-  // background-image: ; props를 이용해서 테마마다 다른 이미지 보여주기
+  align-items: center;
+  justify-content: center;
 `;
 
-const Avatar = () => {
+const Image = styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
+`;
+
+const Avatar = ({ imgSrc }) => {
   return (
     <AvatarContainer>
-      <Image />
+      <AvatarImage>
+        <Image src={imgSrc} alt="Avatar" />
+      </AvatarImage>
     </AvatarContainer>
   );
 };
