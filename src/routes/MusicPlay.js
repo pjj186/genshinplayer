@@ -42,13 +42,20 @@ const BackLink = styled(Link)`
   margin-left: 5px;
   font-size: 20px;
 `;
+
+const Video = styled.video`
+  display: none;
+`;
+
 const MUSIC_LF = "currentmusic";
 
 const MusicPlay = (props) => {
+  let volumeValue = 0.5;
   const videoRef = useRef();
+  const volumeRef = useRef();
   const [srcValue, setSrcValue] = useState("");
-  const [minute, setMinute] = useState("");
-  const [second, setSecond] = useState("");
+  const [volumeBar, setVolumeBar] = useState(0.5);
+
   const playMusic = () => {
     // 음악 재생
     localforage.getItem(MUSIC_LF, (err, value) => {
@@ -57,17 +64,24 @@ const MusicPlay = (props) => {
       }
       console.log(value.name);
       const url = URL.createObjectURL(value.file);
-      setSrcValue(url);
+      setSrcValue(url); // 이때 비디오가 생긴단 말이지?
     });
+    videoRef.current.volume = volumeValue;
+    console.log(videoRef.current.volume);
   };
 
-  const getDurations = () => {
-    setMinute(Math.floor(videoRef.current.duration / 60));
-    setSecond(Math.floor(videoRef.current.duration % 60));
+  const handleVolumeChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    console.log(value);
+    setVolumeBar(value);
+    volumeValue = value;
+    videoRef.current.volume = value;
   };
 
   useEffect(() => {
-    videoRef.current.addEventListener("loadedmetadata", getDurations);
+    volumeRef.current.addEventListener("input", handleVolumeChange);
   }, []);
 
   return (
@@ -81,7 +95,16 @@ const MusicPlay = (props) => {
           </Header>
           <Avatar imgSrc={props.location.state.imgSrc} />
           <SongInfo>
-            <video src={srcValue} autoPlay={true} ref={videoRef} />
+            <input
+              type="range"
+              step="0.1"
+              value={volumeBar}
+              min="0"
+              max="1"
+              ref={volumeRef}
+              onChange={handleVolumeChange}
+            />
+            <Video src={srcValue} autoPlay={true} ref={videoRef} />
           </SongInfo>
           <ButtonContainer>
             <BackwardButton />
