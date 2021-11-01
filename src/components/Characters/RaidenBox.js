@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const TextBox = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   margin-left: 10px;
   cursor: default;
@@ -29,7 +29,7 @@ const AvatarImg = styled.img`
 `;
 
 const Icon = styled.div`
-  font-size: 40px;
+  font-size: 30px;
   margin-right: 10px;
 `;
 
@@ -89,6 +89,7 @@ const RaidenBox = () => {
           pathname: `/play`,
           state: {
             imgSrc,
+            name: "Raiden Shogun",
           },
         }}
       >

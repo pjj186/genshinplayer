@@ -4,7 +4,8 @@ import BackwardButton from "../components/common/BackwardButton";
 import ForwardButton from "../components/common/ForwardButton";
 import PlayButton from "../components/common/PlayButton";
 import Avatar from "../components/common/Avatar";
-import SongInfo from "../components/common/SongInfo";
+import SongController from "../components/common/SongController";
+import SongTitle from "../components/common/SongTitle";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -20,7 +21,7 @@ const Player = styled.div`
   margin: 0 auto;
   /* transform: translateY(50%); */
   background-color: white;
-  width: 350px;
+  width: 300px;
   height: 500px;
   border-radius: 15px;
   border: 1px solid black;
@@ -47,10 +48,15 @@ const Video = styled.video`
   display: none;
 `;
 
+const Title = styled.span`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
 const MUSIC_LF = "currentmusic";
 
 const MusicPlay = (props) => {
-  let volumeValue = 0.5;
+  let volumeValue = 0.5; // 볼륨 초깃값
   const videoRef = useRef();
   const volumeRef = useRef();
   const [srcValue, setSrcValue] = useState("");
@@ -62,19 +68,16 @@ const MusicPlay = (props) => {
       if (err) {
         console.log(err);
       }
-      console.log(value.name);
       const url = URL.createObjectURL(value.file);
       setSrcValue(url); // 이때 비디오가 생긴단 말이지?
     });
     videoRef.current.volume = volumeValue;
-    console.log(videoRef.current.volume);
   };
 
   const handleVolumeChange = (event) => {
     const {
       target: { value },
     } = event;
-    console.log(value);
     setVolumeBar(value);
     volumeValue = value;
     videoRef.current.volume = value;
@@ -94,7 +97,10 @@ const MusicPlay = (props) => {
             </BackLink>
           </Header>
           <Avatar imgSrc={props.location.state.imgSrc} />
-          <SongInfo>
+          <SongTitle>
+            <Title>{props.location.state.name}</Title>
+          </SongTitle>
+          <SongController>
             <input
               type="range"
               step="0.1"
@@ -105,7 +111,7 @@ const MusicPlay = (props) => {
               onChange={handleVolumeChange}
             />
             <Video src={srcValue} autoPlay={true} ref={videoRef} />
-          </SongInfo>
+          </SongController>
           <ButtonContainer>
             <BackwardButton />
             <PlayButton playMusic={playMusic} />

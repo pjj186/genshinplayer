@@ -12,7 +12,7 @@ const Player = styled.div`
   margin: 0 auto;
   /* transform: translateY(50%); */
   background-color: white;
-  width: 350px;
+  width: 300px;
   height: 500px;
   border-radius: 15px;
   border: 1px solid black;

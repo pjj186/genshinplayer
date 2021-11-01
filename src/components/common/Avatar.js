@@ -9,15 +9,15 @@ const AvatarContainer = styled.div`
 const AvatarImage = styled.div`
   display: flex;
   background-color: white;
-  width: 200px;
-  height: 200px;
+  width: 130px;
+  height: 130px;
   align-items: center;
   justify-content: center;
 `;
 
 const Image = styled.img`
-  width: 180px;
-  height: 180px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 `;
