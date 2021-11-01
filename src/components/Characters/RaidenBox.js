@@ -78,6 +78,7 @@ const RaidenBox = () => {
     console.log(url);
     xhr.open("GET", url);
     xhr.send();
+    console.log(meta);
   };
 
   return (

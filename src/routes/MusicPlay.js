@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import BackwardButton from "../components/common/BackwardButton";
 import ForwardButton from "../components/common/ForwardButton";
@@ -45,7 +45,10 @@ const BackLink = styled(Link)`
 const MUSIC_LF = "currentmusic";
 
 const MusicPlay = (props) => {
+  const videoRef = useRef();
   const [srcValue, setSrcValue] = useState("");
+  const [minute, setMinute] = useState("");
+  const [second, setSecond] = useState("");
   const playMusic = () => {
     // 음악 재생
     localforage.getItem(MUSIC_LF, (err, value) => {
@@ -58,6 +61,15 @@ const MusicPlay = (props) => {
     });
   };
 
+  const getDurations = () => {
+    setMinute(Math.floor(videoRef.current.duration / 60));
+    setSecond(Math.floor(videoRef.current.duration % 60));
+  };
+
+  useEffect(() => {
+    videoRef.current.addEventListener("loadedmetadata", getDurations);
+  }, []);
+
   return (
     <>
       <Container>
@@ -69,7 +81,7 @@ const MusicPlay = (props) => {
           </Header>
           <Avatar imgSrc={props.location.state.imgSrc} />
           <SongInfo>
-            <video src={srcValue} autoPlay={true}></video>
+            <video src={srcValue} autoPlay={true} ref={videoRef} />
           </SongInfo>
           <ButtonContainer>
             <BackwardButton />
