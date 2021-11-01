@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import getBlobDuration from "get-blob-duration";
 import { storageService } from "../../fbase";
 import { getDownloadURL, ref, getMetadata, listAll } from "@firebase/storage";
 import { Link } from "react-router-dom";
@@ -66,13 +67,17 @@ const RaidenBox = () => {
     const meta = await getMetadata(musicRef); // 지금 선택된 file 레퍼런스의 메타데이터 가져오기
     const url = await getDownloadURL(musicRef);
     const xhr = new XMLHttpRequest();
+    // getBlobDuration 라이브러리를 통해서 blob의 재생시간을 가져옴!!
+    const duration = await getBlobDuration(url);
     xhr.responseType = "blob";
     xhr.onload = function (event) {
       const blob = xhr.response;
       console.log(blob);
+      // duration을 localforage에 저장했음. state에 저장해서 props로 보내려고했는데 잘 안됬다.
       localforage.setItem(MUSIC_LF, {
         name: meta.name,
         file: blob,
+        duration,
       });
     };
     console.log(url);

@@ -61,6 +61,16 @@ const MusicPlay = (props) => {
   const volumeRef = useRef();
   const [srcValue, setSrcValue] = useState("");
   const [volumeBar, setVolumeBar] = useState(0.5);
+  const [duration, setDuration] = useState(0);
+
+  const getLocalForage = () => {
+    localforage.getItem(MUSIC_LF, (err, value) => {
+      if (err) {
+        console.log(err);
+      }
+      setDuration(value.duration);
+    });
+  };
 
   const playMusic = () => {
     // 음악 재생
@@ -68,8 +78,8 @@ const MusicPlay = (props) => {
       if (err) {
         console.log(err);
       }
-      const url = URL.createObjectURL(value.file);
-      setSrcValue(url); // 이때 비디오가 생긴단 말이지?
+      const url = URL.createObjectURL(value.file); // 파일
+      setSrcValue(url);
     });
     videoRef.current.volume = volumeValue;
   };
@@ -85,6 +95,7 @@ const MusicPlay = (props) => {
 
   useEffect(() => {
     volumeRef.current.addEventListener("input", handleVolumeChange);
+    getLocalForage();
   }, []);
 
   return (
@@ -99,6 +110,7 @@ const MusicPlay = (props) => {
           <Avatar imgSrc={props.location.state.imgSrc} />
           <SongTitle>
             <Title>{props.location.state.name}</Title>
+            {props.location.state.videoLength}
           </SongTitle>
           <SongController>
             <input
@@ -110,6 +122,7 @@ const MusicPlay = (props) => {
               ref={volumeRef}
               onChange={handleVolumeChange}
             />
+            {Math.floor(duration / 60)} : {Math.floor(duration % 60)}
             <Video src={srcValue} autoPlay={true} ref={videoRef} />
           </SongController>
           <ButtonContainer>
