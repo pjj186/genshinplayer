@@ -4,13 +4,14 @@ import styled from "styled-components";
 const SongInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: tomato;
   width: 100%;
-  height: 100px;
+  height: 220px;
   position: absolute;
-  bottom: 80px;
+  bottom: 0;
+  border-radius: 0px 0px 15px 15px;
 `;
 
 const SongController = ({ children }) => {

@@ -16,12 +16,17 @@ const PlayButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const PlayButton = ({ playMusic }) => {
+const PlayButton = ({ playMusic, videoRef }) => {
   const [isPlay, setIsPlay] = useState(false);
 
   const onClickPlay = () => {
     setIsPlay((prev) => !prev);
-    playMusic();
+    if (!isPlay) {
+      playMusic();
+    }
+    if (isPlay) {
+      videoRef.current.pause();
+    }
   };
 
   return (
