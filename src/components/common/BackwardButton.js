@@ -16,10 +16,13 @@ const BackwardButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const BackwardButton = () => {
+const BackwardButton = ({ videoRef }) => {
+  const handleBackward = () => {
+    videoRef.current.currentTime -= 10;
+  };
   return (
     <BackwardButtonContainer>
-      <FontAwesomeIcon icon={faBackward} />
+      <FontAwesomeIcon icon={faBackward} onClick={handleBackward} />
     </BackwardButtonContainer>
   );
 };

@@ -16,10 +16,13 @@ const ForwardButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const ForwardButton = ({ playMusic }) => {
+const ForwardButton = ({ videoRef }) => {
+  const handleForward = () => {
+    videoRef.current.currentTime += 10;
+  };
   return (
     <ForwardButtonContainer>
-      <FontAwesomeIcon icon={faForward} onClick={playMusic} />
+      <FontAwesomeIcon icon={faForward} onClick={handleForward} />
     </ForwardButtonContainer>
   );
 };

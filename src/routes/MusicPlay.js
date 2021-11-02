@@ -206,9 +206,9 @@ const MusicPlay = (props) => {
               </TimeBox>
             </TimeLineGroup>
             <ButtonContainer>
-              <BackwardButton />
+              <BackwardButton videoRef={videoRef} />
               <PlayButton playMusic={playMusic} videoRef={videoRef} />
-              <ForwardButton />
+              <ForwardButton videoRef={videoRef} />
             </ButtonContainer>
             <VolumeGroup>
               <FontAwesomeIcon icon={faVolumeOff} />
