@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import getBlobDuration from "get-blob-duration";
 import { storageService } from "../../fbase";
@@ -62,13 +62,13 @@ const RaidenBox = () => {
     const listRef = ref(storageService);
     const list = await listAll(listRef);
     const filename = list.items[RAIDEN].name; // 파일이름 가져오기
-
     const musicRef = ref(storageService, filename);
     const meta = await getMetadata(musicRef); // 지금 선택된 file 레퍼런스의 메타데이터 가져오기
     const url = await getDownloadURL(musicRef);
+    const duration = await getBlobDuration(url);
+
     const xhr = new XMLHttpRequest();
     // getBlobDuration 라이브러리를 통해서 blob의 재생시간을 가져옴!!
-    const duration = await getBlobDuration(url);
     xhr.responseType = "blob";
     xhr.onload = function (event) {
       const blob = xhr.response;
@@ -80,10 +80,13 @@ const RaidenBox = () => {
         duration,
       });
     };
-    console.log(url);
     xhr.open("GET", url);
     xhr.send();
   };
+
+  useEffect(() => {
+    return () => {};
+  }, []);
 
   return (
     <Container>

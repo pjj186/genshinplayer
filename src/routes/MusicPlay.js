@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import localforage from "localforage";
 import Header from "../components/common/Header";
+import Loader from "../components/common/Loader";
 
 const Container = styled.div`
   display: flex;
@@ -69,6 +70,7 @@ const VolumeBox = styled.input`
 
 const TimeLineBox = styled.input`
   width: 100%;
+  margin: 0 auto;
 `;
 
 const TimeBox = styled.div`
@@ -95,8 +97,6 @@ const CurrentTimeBox = styled.span`
 const MUSIC_LF = "currentmusic";
 
 const MusicPlay = (props) => {
-  let volumeValue = 0.5; // 볼륨 초깃값
-
   const videoRef = useRef();
   const volumeRef = useRef();
   const currentTime = useRef();
@@ -108,6 +108,9 @@ const MusicPlay = (props) => {
   const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(null);
   const [originduration, setOriginDuration] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  let volumeValue = volumeBar; // 볼륨 초깃값
 
   const getLocalForage = () => {
     localforage.getItem(MUSIC_LF, (err, value) => {
@@ -116,6 +119,7 @@ const MusicPlay = (props) => {
       }
       setDuration(timeFormat(value.duration));
       setOriginDuration(value.duration);
+      setLoading(false);
     });
   };
 
@@ -166,14 +170,19 @@ const MusicPlay = (props) => {
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
-    volume.addEventListener("input", handleVolumeChange);
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    getLocalForage();
+    // localforage가 셋팅되는 시간이 필요하기때문에 딜레이를 살짝 주었다.
+    setTimeout(getLocalForage, 2500);
+    if (!loading) {
+      volume.addEventListener("input", handleVolumeChange);
+      video.addEventListener("timeupdate", handleTimeUpdate);
+    }
     return () => {
-      video.removeEventListener("timeupdate", handleTimeUpdate);
-      volume.removeEventListener("input", handleVolumeChange);
+      if (!loading) {
+        video.removeEventListener("timeupdate", handleTimeUpdate);
+        volume.removeEventListener("input", handleVolumeChange);
+      }
     };
-  }, []);
+  }, [loading]);
 
   return (
     <>
@@ -184,47 +193,55 @@ const MusicPlay = (props) => {
               <FontAwesomeIcon icon={faChevronCircleLeft} />
             </BackLink>
           </Header>
-          <Avatar imgSrc={props.location.state.imgSrc} />
-          <SongTitle>
-            <Title>{props.location.state.name}</Title>
-            {props.location.state.videoLength}
-          </SongTitle>
-          <SongController>
-            <TimeLineGroup>
-              <TimeLineBox
-                type="range"
-                step="1"
-                value={timeline}
-                min="0"
-                max={originduration}
-                ref={timelineel}
-                onChange={handleTimelineChange}
-              />
-              <TimeBox>
-                <CurrentTimeBox ref={currentTime}>0:00</CurrentTimeBox>
-                <TotalTimeBox ref={totalTime}>{duration}</TotalTimeBox>
-              </TimeBox>
-            </TimeLineGroup>
-            <ButtonContainer>
-              <BackwardButton videoRef={videoRef} />
-              <PlayButton playMusic={playMusic} videoRef={videoRef} />
-              <ForwardButton videoRef={videoRef} />
-            </ButtonContainer>
-            <VolumeGroup>
-              <FontAwesomeIcon icon={faVolumeOff} />
-              <VolumeBox
-                type="range"
-                step="0.1"
-                value={volumeBar}
-                min="0"
-                max="1"
-                ref={volumeRef}
-                onChange={handleVolumeChange}
-              />
-              <FontAwesomeIcon icon={faVolumeUp} />
-            </VolumeGroup>
-            <Video src={srcValue} autoPlay={true} ref={videoRef} />
-          </SongController>
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <Avatar imgSrc={props.location.state.imgSrc} />
+              <SongTitle>
+                <Title>{props.location.state.name}</Title>
+                {props.location.state.videoLength}
+              </SongTitle>
+              <SongController>
+                <TimeLineGroup>
+                  <TimeLineBox
+                    type="range"
+                    step="1"
+                    value={timeline}
+                    min="0"
+                    max={originduration}
+                    ref={timelineel}
+                    onChange={handleTimelineChange}
+                  />
+                  <TimeBox>
+                    <CurrentTimeBox ref={currentTime}>0:00</CurrentTimeBox>
+                    <TotalTimeBox ref={totalTime}>
+                      {duration ? duration : "0:00"}
+                    </TotalTimeBox>
+                  </TimeBox>
+                </TimeLineGroup>
+                <ButtonContainer>
+                  <BackwardButton videoRef={videoRef} />
+                  <PlayButton playMusic={playMusic} videoRef={videoRef} />
+                  <ForwardButton videoRef={videoRef} />
+                </ButtonContainer>
+                <VolumeGroup>
+                  <FontAwesomeIcon icon={faVolumeOff} />
+                  <VolumeBox
+                    type="range"
+                    step="0.1"
+                    value={volumeBar}
+                    min="0"
+                    max="1"
+                    ref={volumeRef}
+                    onChange={handleVolumeChange}
+                  />
+                  <FontAwesomeIcon icon={faVolumeUp} />
+                </VolumeGroup>
+                <Video src={srcValue} autoPlay={true} ref={videoRef} />
+              </SongController>
+            </>
+          )}
         </Player>
       </Container>
     </>
