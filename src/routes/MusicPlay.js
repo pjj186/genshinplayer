@@ -95,6 +95,7 @@ const CurrentTimeBox = styled.span`
 `;
 
 const MUSIC_LF = "currentmusic";
+const IMAGE_LF = "currentimage";
 
 const MusicPlay = (props) => {
   const videoRef = useRef();
@@ -104,6 +105,8 @@ const MusicPlay = (props) => {
   const timelineel = useRef();
 
   const [srcValue, setSrcValue] = useState("");
+  const [imgSrc, setImgSrc] = useState("");
+  const [charName, setCharName] = useState("");
   const [volumeBar, setVolumeBar] = useState(0.5);
   const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(null);
@@ -120,6 +123,13 @@ const MusicPlay = (props) => {
       setDuration(timeFormat(value.duration));
       setOriginDuration(value.duration);
       setLoading(false);
+    });
+    localforage.getItem(IMAGE_LF, (err, value) => {
+      if (err) {
+        console.log(err);
+      }
+      setImgSrc(value.imageUrl);
+      setCharName(value.name);
     });
   };
 
@@ -182,6 +192,7 @@ const MusicPlay = (props) => {
         volume.removeEventListener("input", handleVolumeChange);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   return (
@@ -197,10 +208,9 @@ const MusicPlay = (props) => {
             <Loader />
           ) : (
             <>
-              <Avatar imgSrc={props.location.state.imgSrc} />
+              <Avatar imgSrc={imgSrc} />
               <SongTitle>
-                <Title>{props.location.state.name}</Title>
-                {props.location.state.videoLength}
+                <Title>{charName}</Title>
               </SongTitle>
               <SongController>
                 <TimeLineGroup>

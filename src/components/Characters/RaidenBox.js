@@ -36,6 +36,7 @@ const Icon = styled.div`
 
 const RaidenBox = () => {
   const MUSIC_LF = "currentmusic";
+  const IMAGE_LF = "currentimage";
   const [imgSrc, setImgSrc] = useState("");
   const RAIDEN = 0;
 
@@ -45,6 +46,10 @@ const RaidenBox = () => {
     const url = await getDownloadURL(imgRef);
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
+    localforage.setItem(IMAGE_LF, {
+      name: "Raiden Shogun",
+      imageUrl: url,
+    });
     xhr.onload = function (event) {
       const blob = xhr.response;
       console.log(blob);
@@ -95,10 +100,6 @@ const RaidenBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            name: "Raiden Shogun",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>
