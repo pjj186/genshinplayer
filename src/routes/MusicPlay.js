@@ -53,14 +53,28 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
+const VolumeBox = styled.input``;
+
+const TimeLineBox = styled.input``;
+
+const TotalTimeBox = styled.span``;
+
+const CurrentTimeBox = styled.span``;
+
 const MUSIC_LF = "currentmusic";
 
 const MusicPlay = (props) => {
   let volumeValue = 0.5; // 볼륨 초깃값
+
   const videoRef = useRef();
   const volumeRef = useRef();
+  const currentTime = useRef();
+  const totalTime = useRef();
+  const timelineel = useRef();
+
   const [srcValue, setSrcValue] = useState("");
   const [volumeBar, setVolumeBar] = useState(0.5);
+  const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const getLocalForage = () => {
@@ -93,9 +107,26 @@ const MusicPlay = (props) => {
     videoRef.current.volume = value;
   };
 
+  const handleTimeUpdate = () => {
+    currentTime.current.innerText = Math.floor(videoRef.current.currentTime);
+    setTimeline(Math.floor(videoRef.current.currentTime));
+  };
+
+  const handleTimelineChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    videoRef.current.currentTime = value;
+  };
+
   useEffect(() => {
+    const video = videoRef.current;
     volumeRef.current.addEventListener("input", handleVolumeChange);
+    video.addEventListener("timeupdate", handleTimeUpdate);
     getLocalForage();
+    return () => {
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+    };
   }, []);
 
   return (
@@ -113,7 +144,7 @@ const MusicPlay = (props) => {
             {props.location.state.videoLength}
           </SongTitle>
           <SongController>
-            <input
+            <VolumeBox
               type="range"
               step="0.1"
               value={volumeBar}
@@ -122,7 +153,18 @@ const MusicPlay = (props) => {
               ref={volumeRef}
               onChange={handleVolumeChange}
             />
-            {Math.floor(duration / 60)} : {Math.floor(duration % 60)}
+            <TimeLineBox
+              type="range"
+              step="1"
+              value={timeline}
+              min="0"
+              ref={timelineel}
+              onChange={handleTimelineChange}
+            />
+            <CurrentTimeBox ref={currentTime}>00 : 00</CurrentTimeBox>
+            <TotalTimeBox ref={totalTime}>
+              {Math.floor(duration / 60)} : {Math.floor(duration % 60)}
+            </TotalTimeBox>
             <Video src={srcValue} autoPlay={true} ref={videoRef} />
           </SongController>
           <ButtonContainer>
