@@ -108,8 +108,28 @@ const VolumeBox = styled.input`
 
 // 타임라인 range
 const TimeLineBox = styled.input`
+  -webkit-appearance: none;
+  overflow: hidden;
   width: 100%;
   margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.5);
+
+  &::-webkit-slider-runnable-track {
+    height: 4px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    border: 0.2px solid #010101;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #dfe6e9;
+    margin-top: -5px;
+    box-shadow: -100vw 0 0 100vw rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+  }
 `;
 
 const TimeBox = styled.div`
