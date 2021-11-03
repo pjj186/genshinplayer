@@ -165,7 +165,7 @@ const MUSIC_LF = "currentmusic";
 const IMAGE_LF = "currentimage";
 const BG_LF = "currentbackground";
 
-const MusicPlay = (props) => {
+const MusicPlay = () => {
   const videoRef = useRef();
   const volumeRef = useRef();
   const currentTime = useRef();
