@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
@@ -16,8 +16,25 @@ const PlayButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const PlayButton = ({ playMusic, videoRef }) => {
+const PlayButton = ({ playMusic, videoRef, loading }) => {
   const [isPlay, setIsPlay] = useState(false);
+
+  const handleEnded = () => {
+    if (videoRef.current.ended) setIsPlay(false);
+  };
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!loading) {
+      video.addEventListener("timeupdate", handleEnded);
+    }
+    return () => {
+      if (!loading) {
+        video.removeEventListener("timeupdate", handleEnded);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onClickPlay = () => {
     setIsPlay((prev) => !prev);

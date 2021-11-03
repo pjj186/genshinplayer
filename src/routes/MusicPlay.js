@@ -219,6 +219,9 @@ const MusicPlay = () => {
       Math.floor(videoRef.current.currentTime)
     );
     setTimeline(Math.floor(videoRef.current.currentTime));
+    if (videoRef.current.ended) {
+      videoRef.current.currentTime = 0;
+    }
   };
 
   const handleTimelineChange = (event) => {
@@ -290,7 +293,11 @@ const MusicPlay = () => {
                 <BottomGroup>
                   <ButtonContainer>
                     <BackwardButton videoRef={videoRef} />
-                    <PlayButton playMusic={playMusic} videoRef={videoRef} />
+                    <PlayButton
+                      playMusic={playMusic}
+                      videoRef={videoRef}
+                      loading={loading}
+                    />
                     <ForwardButton videoRef={videoRef} />
                   </ButtonContainer>
                   <VolumeGroup>
