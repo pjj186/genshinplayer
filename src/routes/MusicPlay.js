@@ -41,7 +41,7 @@ const BackgroundContainer = styled.div`
   background-position: center;
   border-radius: 15px;
   z-index: -1;
-  filter: blur(1px);
+  filter: blur(2px);
 `;
 
 const ButtonContainer = styled.div`
@@ -77,8 +77,31 @@ const VolumeGroup = styled.div`
 
 // 볼륨 range
 const VolumeBox = styled.input`
+  -webkit-appearance: none;
   width: 70%;
   margin: 0 5px;
+
+  &:focus {
+    outline: none;
+  }
+  // 포인터
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    margin-top: -5px;
+  }
+
+  // 바 스타일
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    /* box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; */
+    border-radius: 30px;
+    border: 0.2px solid #010101;
+  }
 `;
 
 // 타임라인 range
