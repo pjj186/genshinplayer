@@ -165,7 +165,7 @@ const MUSIC_LF = "currentmusic";
 const IMAGE_LF = "currentimage";
 const BG_LF = "currentbackground";
 
-const MusicPlay = () => {
+const MusicPlay = (props) => {
   const videoRef = useRef();
   const volumeRef = useRef();
   const currentTime = useRef();
@@ -175,7 +175,7 @@ const MusicPlay = () => {
   const [srcValue, setSrcValue] = useState("");
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
-  const [charName, setCharName] = useState("");
+  const [name, setName] = useState("");
   const [volumeBar, setVolumeBar] = useState(0.5);
   const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(null);
@@ -197,14 +197,14 @@ const MusicPlay = () => {
       if (err) {
         console.log(err);
       }
-      setImgSrc(value.imageUrl);
-      setCharName(value.name);
+      setImgSrc(value.imgSrc);
+      setName(value.name);
     });
     localforage.getItem(BG_LF, (err, value) => {
       if (err) {
         console.log(err);
       }
-      setBgSrc(value.imageUrl);
+      setBgSrc(value.bgSrc);
     });
   };
 
@@ -261,7 +261,9 @@ const MusicPlay = () => {
     const video = videoRef.current;
     const volume = volumeRef.current;
     // localforage가 셋팅되는 시간이 필요하기때문에 딜레이를 살짝 주었다.
-    setTimeout(getLocalForage, 2500);
+    if (loading) {
+    }
+    setTimeout(getLocalForage, 3000);
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
@@ -291,7 +293,7 @@ const MusicPlay = () => {
               </Header>
               <Avatar imgSrc={imgSrc} />
               <SongTitle>
-                <Title>{charName}</Title>
+                <Title>{name}</Title>
               </SongTitle>
               <SongController>
                 <TimeLineGroup>

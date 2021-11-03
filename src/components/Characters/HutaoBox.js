@@ -34,17 +34,18 @@ const Icon = styled.div`
   margin-right: 10px;
 `;
 
-const RaidenBox = () => {
+const HutaoBox = () => {
   const MUSIC_LF = "currentmusic";
   const IMAGE_LF = "currentimage";
   const BG_LF = "currentbackground";
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
-  const RAIDEN = 0;
+
+  const HUTAO = 1;
 
   // 아바타이미지를 받아온다.
   const getImgFile = async () => {
-    const imgRef = ref(storageService, "images/raiden.png");
+    const imgRef = ref(storageService, "images/hutao_avatar.png");
     const url = await getDownloadURL(imgRef);
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
@@ -60,7 +61,7 @@ const RaidenBox = () => {
 
   // 백그라운드 이미지를 받아온다.
   const getBackGround = async () => {
-    const imgRef = ref(storageService, "images/raidenbg.jpg");
+    const imgRef = ref(storageService, "images/hutaobg.jpg");
     const url = await getDownloadURL(imgRef);
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
@@ -80,7 +81,7 @@ const RaidenBox = () => {
     // 음악 선택
     const listRef = ref(storageService);
     const list = await listAll(listRef);
-    const filename = list.items[RAIDEN].name; // MP3 리스트 파일이름 가져오기
+    const filename = list.items[HUTAO].name; // 파일이름 가져오기
     const musicRef = ref(storageService, filename);
     const meta = await getMetadata(musicRef); // 지금 선택된 file 레퍼런스의 메타데이터 가져오기
     const url = await getDownloadURL(musicRef);
@@ -99,7 +100,7 @@ const RaidenBox = () => {
       });
       localforage.setItem(IMAGE_LF, {
         imgSrc,
-        name: "Raiden Shogun",
+        name: "Hutao",
       });
       localforage.setItem(BG_LF, {
         bgSrc,
@@ -112,14 +113,14 @@ const RaidenBox = () => {
   return (
     <Container>
       <AvatarImg src={imgSrc} alt="Avatar" />
-      <TextBox>Raiden Shogun</TextBox>
+      <TextBox>Hutao</TextBox>
       <Link
         to={{
           pathname: `/play`,
           state: {
             imgSrc,
             bgSrc,
-            name: "Raiden Shogun",
+            name: "Hutao",
           },
         }}
       >
@@ -131,4 +132,4 @@ const RaidenBox = () => {
   );
 };
 
-export default RaidenBox;
+export default HutaoBox;

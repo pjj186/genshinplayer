@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../components/common/Header";
 import RaidenBox from "../components/Characters/RaidenBox";
+import HutaoBox from "../components/Characters/HutaoBox";
 
 const Container = styled.div`
   display: flex;
@@ -55,6 +56,7 @@ const MusicList = () => {
         </Header>
         <ListBox>
           <RaidenBox />
+          <HutaoBox />
         </ListBox>
       </Player>
     </Container>
