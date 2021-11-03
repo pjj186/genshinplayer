@@ -9,7 +9,7 @@ import SongTitle from "../components/common/SongTitle";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronCircleLeft,
+  faBars,
   faVolumeUp,
   faVolumeOff,
 } from "@fortawesome/free-solid-svg-icons";
@@ -55,8 +55,9 @@ const ButtonContainer = styled.div`
 `;
 
 const BackLink = styled(Link)`
-  margin-left: 5px;
+  margin-left: 10px;
   font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
 `;
 
 const Video = styled.video`
@@ -285,7 +286,7 @@ const MusicPlay = () => {
               <BackgroundContainer bgSrc={bgSrc} />
               <Header>
                 <BackLink to="/">
-                  <FontAwesomeIcon icon={faChevronCircleLeft} />
+                  <FontAwesomeIcon icon={faBars} />
                 </BackLink>
               </Header>
               <Avatar imgSrc={imgSrc} />
