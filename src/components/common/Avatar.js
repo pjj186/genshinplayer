@@ -13,6 +13,7 @@ const AvatarImage = styled.div`
   height: 130px;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
 `;
 
 const Image = styled.img`

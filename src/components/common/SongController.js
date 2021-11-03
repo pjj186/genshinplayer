@@ -6,7 +6,7 @@ const SongInfoContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: tomato;
+  /* background-color: tomato; */
   width: 100%;
   height: 220px;
   position: absolute;

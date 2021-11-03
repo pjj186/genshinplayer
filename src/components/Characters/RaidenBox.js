@@ -37,10 +37,11 @@ const Icon = styled.div`
 const RaidenBox = () => {
   const MUSIC_LF = "currentmusic";
   const IMAGE_LF = "currentimage";
+  const BG_LF = "currentbackground";
   const [imgSrc, setImgSrc] = useState("");
   const RAIDEN = 0;
 
-  // 이미지를 받아온다.
+  // 아바타이미지를 받아온다.
   const getImgFile = async () => {
     const imgRef = ref(storageService, "images/raiden.png");
     const url = await getDownloadURL(imgRef);
@@ -59,6 +60,24 @@ const RaidenBox = () => {
     setImgSrc(url);
   };
   getImgFile(); // 이미지 받아오는 함수 호출
+
+  // 백그라운드 이미지를 받아온다.
+  const getBackGround = async () => {
+    const imgRef = ref(storageService, "images/raidenbg.jpg");
+    const url = await getDownloadURL(imgRef);
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "blob";
+    localforage.setItem(BG_LF, {
+      imageUrl: url,
+    });
+    xhr.onload = function (evnet) {
+      const blob = xhr.response;
+      console.log(blob);
+    };
+    xhr.open("GET", url);
+    xhr.send();
+  };
+  getBackGround(); // 백그라운드 이미지 받아오기.
 
   // 음악을 받아옵니다.
 

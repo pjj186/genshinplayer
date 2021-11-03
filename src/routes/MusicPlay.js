@@ -25,16 +25,28 @@ const Player = styled.div`
   position: relative;
   margin: 0 auto;
   /* transform: translateY(50%); */
-  background-color: white;
   width: 300px;
   height: 500px;
   border-radius: 15px;
-  border: 1px solid black;
+  border: 0.5px solid black;
+`;
+
+const BackgroundContainer = styled.div`
+  position: fixed;
+  width: 300px;
+  height: 500px;
+  background-image: url(${(props) => props.bgSrc});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  z-index: -1;
+  filter: blur(1px);
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  background-color: black;
+  /* background-color: black; */
   width: 100%;
   height: 70px;
   align-items: center;
@@ -63,11 +75,13 @@ const VolumeGroup = styled.div`
   height: 80px;
 `;
 
+// 볼륨 range
 const VolumeBox = styled.input`
   width: 70%;
   margin: 0 5px;
 `;
 
+// 타임라인 range
 const TimeLineBox = styled.input`
   width: 100%;
   margin: 0 auto;
@@ -96,8 +110,9 @@ const CurrentTimeBox = styled.span`
 
 const MUSIC_LF = "currentmusic";
 const IMAGE_LF = "currentimage";
+const BG_LF = "currentbackground";
 
-const MusicPlay = (props) => {
+const MusicPlay = () => {
   const videoRef = useRef();
   const volumeRef = useRef();
   const currentTime = useRef();
@@ -106,6 +121,7 @@ const MusicPlay = (props) => {
 
   const [srcValue, setSrcValue] = useState("");
   const [imgSrc, setImgSrc] = useState("");
+  const [bgSrc, setBgSrc] = useState("");
   const [charName, setCharName] = useState("");
   const [volumeBar, setVolumeBar] = useState(0.5);
   const [timeline, setTimeline] = useState(0);
@@ -131,10 +147,16 @@ const MusicPlay = (props) => {
       setImgSrc(value.imageUrl);
       setCharName(value.name);
     });
+    localforage.getItem(BG_LF, (err, value) => {
+      if (err) {
+        console.log(err);
+      }
+      setBgSrc(value.imageUrl);
+    });
   };
 
+  // 음악 재생
   const playMusic = () => {
-    // 음악 재생
     if (videoRef.current.currentTime === 0) {
       localforage.getItem(MUSIC_LF, (err, value) => {
         if (err) {
@@ -149,6 +171,7 @@ const MusicPlay = (props) => {
     videoRef.current.volume = volumeValue;
   };
 
+  // 볼륨 컨트롤
   const handleVolumeChange = (event) => {
     const {
       target: { value },
@@ -158,6 +181,7 @@ const MusicPlay = (props) => {
     videoRef.current.volume = value;
   };
 
+  // 타임라인 업데이트
   const handleTimeUpdate = () => {
     currentTime.current.innerText = timeFormat(
       Math.floor(videoRef.current.currentTime)
@@ -199,15 +223,16 @@ const MusicPlay = (props) => {
     <>
       <Container>
         <Player>
-          <Header>
-            <BackLink to="/">
-              <FontAwesomeIcon icon={faChevronCircleLeft} />
-            </BackLink>
-          </Header>
           {loading ? (
             <Loader />
           ) : (
             <>
+              <BackgroundContainer bgSrc={bgSrc} />
+              <Header>
+                <BackLink to="/">
+                  <FontAwesomeIcon icon={faChevronCircleLeft} />
+                </BackLink>
+              </Header>
               <Avatar imgSrc={imgSrc} />
               <SongTitle>
                 <Title>{charName}</Title>
