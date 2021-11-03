@@ -4,22 +4,22 @@ import styled from "styled-components";
 const AvatarContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 20px;
 `;
 const AvatarImage = styled.div`
   display: flex;
-  background-color: white;
-  width: 130px;
-  height: 130px;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 200px;
+  height: 200px;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 15px;
 `;
 
 const Image = styled.img`
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 `;
 

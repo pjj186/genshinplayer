@@ -51,6 +51,7 @@ const ButtonContainer = styled.div`
   height: 70px;
   align-items: center;
   justify-content: space-evenly;
+  padding-top: 25px;
 `;
 
 const BackLink = styled(Link)`
@@ -73,6 +74,7 @@ const VolumeGroup = styled.div`
   align-items: center;
   width: 100%;
   height: 80px;
+  color: #636e72b4;
 `;
 
 // 볼륨 range
@@ -115,6 +117,7 @@ const TimeBox = styled.div`
   justify-content: space-between;
   width: 100%;
   padding: 0 10px;
+  color: rgba(255, 255, 255, 0.9);
 `;
 
 const TimeLineGroup = styled.div`
@@ -129,6 +132,12 @@ const TotalTimeBox = styled.span`
 
 const CurrentTimeBox = styled.span`
   font-weight: bold;
+`;
+
+const BottomGroup = styled.div`
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0px 0px 15px 15px;
 `;
 
 const MUSIC_LF = "currentmusic";
@@ -278,24 +287,26 @@ const MusicPlay = () => {
                     </TotalTimeBox>
                   </TimeBox>
                 </TimeLineGroup>
-                <ButtonContainer>
-                  <BackwardButton videoRef={videoRef} />
-                  <PlayButton playMusic={playMusic} videoRef={videoRef} />
-                  <ForwardButton videoRef={videoRef} />
-                </ButtonContainer>
-                <VolumeGroup>
-                  <FontAwesomeIcon icon={faVolumeOff} />
-                  <VolumeBox
-                    type="range"
-                    step="0.1"
-                    value={volumeBar}
-                    min="0"
-                    max="1"
-                    ref={volumeRef}
-                    onChange={handleVolumeChange}
-                  />
-                  <FontAwesomeIcon icon={faVolumeUp} />
-                </VolumeGroup>
+                <BottomGroup>
+                  <ButtonContainer>
+                    <BackwardButton videoRef={videoRef} />
+                    <PlayButton playMusic={playMusic} videoRef={videoRef} />
+                    <ForwardButton videoRef={videoRef} />
+                  </ButtonContainer>
+                  <VolumeGroup>
+                    <FontAwesomeIcon icon={faVolumeOff} />
+                    <VolumeBox
+                      type="range"
+                      step="0.1"
+                      value={volumeBar}
+                      min="0"
+                      max="1"
+                      ref={volumeRef}
+                      onChange={handleVolumeChange}
+                    />
+                    <FontAwesomeIcon icon={faVolumeUp} />
+                  </VolumeGroup>
+                </BottomGroup>
                 <Video src={srcValue} autoPlay={true} ref={videoRef} />
               </SongController>
             </>
