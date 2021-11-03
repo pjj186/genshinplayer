@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
     }
     * {
         box-sizing: border-box;
+        user-select: none;
     }
     body {
         font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
