@@ -87,7 +87,7 @@ const VolumeBox = styled.input`
   margin: 0 5px;
 
   &:focus {
-    outline: non;
+    outline: none;
   }
   // 포인터
   &::-webkit-slider-thumb {
