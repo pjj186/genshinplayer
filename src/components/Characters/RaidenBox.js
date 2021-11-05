@@ -29,6 +29,7 @@ const TextBox = styled.div`
 const AvatarImg = styled.img`
   height: 55px;
   width: 55px;
+  border-radius: 50%;
 `;
 
 const Icon = styled.div`
