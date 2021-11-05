@@ -339,7 +339,13 @@ const MusicPlay = () => {
                     <FontAwesomeIcon icon={faVolumeUp} />
                   </VolumeGroup>
                 </BottomGroup>
-                <Video src={srcValue} autoPlay={true} ref={videoRef} />
+                <Video
+                  src={srcValue}
+                  autoPlay={true}
+                  ref={videoRef}
+                  playsInline={true}
+                  muted={true}
+                />
               </SongController>
             </>
           )}
