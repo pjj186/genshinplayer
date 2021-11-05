@@ -344,7 +344,7 @@ const MusicPlay = () => {
                   autoPlay={true}
                   ref={videoRef}
                   playsInline={true}
-                  muted={true}
+                  muted={false}
                 />
               </SongController>
             </>

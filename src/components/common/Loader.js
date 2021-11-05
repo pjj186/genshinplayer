@@ -34,8 +34,15 @@ const InLdsRing = styled.div`
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   font-size: 28px;
-  margin-top: 150px;
+  height: 100%;
+  border-radius: 15px;
+  background: rgb(238, 174, 202);
+  background: linear-gradient(
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
 `;
 
 const Loader = () => (
