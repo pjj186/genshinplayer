@@ -9,6 +9,8 @@ import AyakaBox from "../components/Characters/AyakaBox";
 
 const Container = styled.div`
   display: flex;
+  height: 100vh;
+  align-items: center;
 `;
 
 const Player = styled.div`
