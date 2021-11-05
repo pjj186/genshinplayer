@@ -12,7 +12,11 @@ const Player = styled.div`
   position: relative;
   margin: 0 auto;
   /* transform: translateY(50%); */
-  background-color: white;
+  background: rgb(238, 174, 202);
+  background: linear-gradient(
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
   width: 300px;
   height: 500px;
   border-radius: 15px;
@@ -23,7 +27,8 @@ const Title = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  font-weight: bold;
+  font-family: "Ceviche One", cursive;
+  font-size: 30px;
 `;
 
 const ListBox = styled.div`
@@ -32,7 +37,9 @@ const ListBox = styled.div`
   width: 90%;
   height: 400px;
   border: 1px solid black;
+  border-radius: 6px;
   overflow-y: scroll;
+  font-family: "Fredoka One", cursive;
   &::-webkit-scrollbar {
     height: 8px;
     width: 5px;

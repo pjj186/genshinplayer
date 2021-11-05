@@ -12,9 +12,11 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   height: 60px;
-  border: 1px solid black;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.8);
 `;
 
 const TextBox = styled.div`
