@@ -5,6 +5,7 @@ import RaidenBox from "../components/Characters/RaidenBox";
 import HutaoBox from "../components/Characters/HutaoBox";
 import KazuhaBox from "../components/Characters/KazuhaBox";
 import KleeBox from "../components/Characters/KleeBox";
+import AyakaBox from "../components/Characters/AyakaBox";
 
 const Container = styled.div`
   display: flex;
@@ -68,6 +69,7 @@ const MusicList = () => {
           <HutaoBox />
           <KazuhaBox />
           <KleeBox />
+          <AyakaBox />
         </ListBox>
       </Player>
     </Container>
