@@ -193,7 +193,6 @@ const MusicPlay = () => {
       }
       setDuration(timeFormat(value.duration));
       setOriginDuration(value.duration);
-      setLoading(false);
     });
     localforage.getItem(IMAGE_LF, (err, value) => {
       if (err) {
@@ -208,6 +207,7 @@ const MusicPlay = () => {
       }
       setBgSrc(value.bgSrc);
     });
+    setLoading(false);
   };
 
   // 음악 재생
