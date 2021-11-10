@@ -59,7 +59,7 @@ const ButtonContainer = styled.div`
 const BackLink = styled(Link)`
   margin-left: 10px;
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
 `;
 
 const Video = styled.video`
@@ -276,7 +276,7 @@ const MusicPlay = () => {
         volume.removeEventListener("input", handleVolumeChange);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   return (

@@ -37,7 +37,7 @@ const Icon = styled.div`
   margin-right: 10px;
 `;
 
-const HutaoBox = () => {
+const GanyuBox = () => {
   const MUSIC_LF = "currentmusic";
   const IMAGE_LF = "currentimage";
   const BG_LF = "currentbackground";
@@ -48,7 +48,7 @@ const HutaoBox = () => {
 
   // 아바타이미지를 받아온다.
   const getImgFile = async () => {
-    const imgRef = ref(storageService, "images/hutao_avatar.png");
+    const imgRef = ref(storageService, "images/ganyu.png");
     const url = await getDownloadURL(imgRef);
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
@@ -64,7 +64,7 @@ const HutaoBox = () => {
 
   // 백그라운드 이미지를 받아온다.
   const getBackGround = async () => {
-    const imgRef = ref(storageService, "images/hutaobg.jpg");
+    const imgRef = ref(storageService, "images/ganyubg.jpg");
     const url = await getDownloadURL(imgRef);
     const xhr = new XMLHttpRequest();
     xhr.responseType = "blob";
@@ -103,7 +103,7 @@ const HutaoBox = () => {
       });
       localforage.setItem(IMAGE_LF, {
         imgSrc,
-        name: "Hutao",
+        name: "Ganyu",
       });
       localforage.setItem(BG_LF, {
         bgSrc,
@@ -116,7 +116,7 @@ const HutaoBox = () => {
   return (
     <Container>
       <AvatarImg src={imgSrc} alt="Avatar" />
-      <TextBox>GANYU</TextBox>
+      <TextBox>Ganyu</TextBox>
       <Link
         to={{
           pathname: `/play`,
@@ -135,4 +135,4 @@ const HutaoBox = () => {
   );
 };
 
-export default HutaoBox;
+export default GanyuBox;

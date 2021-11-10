@@ -6,6 +6,7 @@ import HutaoBox from "../components/Characters/HutaoBox";
 import KazuhaBox from "../components/Characters/KazuhaBox";
 import KleeBox from "../components/Characters/KleeBox";
 import AyakaBox from "../components/Characters/AyakaBox";
+import GanyuBox from "../components/Characters/GanyuBox";
 
 const Container = styled.div`
   display: flex;
@@ -72,6 +73,7 @@ const MusicList = () => {
           <KazuhaBox />
           <KleeBox />
           <AyakaBox />
+          <GanyuBox />
         </ListBox>
       </Player>
     </Container>
