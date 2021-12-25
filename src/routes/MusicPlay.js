@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import BackwardButton from "../components/common/BackwardButton";
 import ForwardButton from "../components/common/ForwardButton";
@@ -16,6 +16,7 @@ import {
 import localforage from "localforage";
 import Header from "../components/common/Header";
 import Loader from "../components/common/Loader";
+import { LoadingContext } from "../components/App";
 
 const Container = styled.div`
   display: flex;
@@ -182,7 +183,8 @@ const MusicPlay = () => {
   const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(null);
   const [originduration, setOriginDuration] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+  const useLoading = useContext(LoadingContext);
 
   let volumeValue = volumeBar; // 볼륨 초깃값
 
@@ -207,7 +209,6 @@ const MusicPlay = () => {
       }
       setBgSrc(value.bgSrc);
     });
-    setLoading(false);
   };
 
   // 음악 재생
@@ -263,27 +264,27 @@ const MusicPlay = () => {
     const video = videoRef.current;
     const volume = volumeRef.current;
     // localforage가 셋팅되는 시간이 필요하기때문에 딜레이를 살짝 주었다.
-    if (loading) {
+    if (useLoading.loading) {
+      getLocalForage();
     }
-    setTimeout(getLocalForage, 3000);
-    if (!loading) {
+    if (!useLoading.loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
     }
     return () => {
-      if (!loading) {
+      if (!useLoading.loading) {
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  }, [useLoading.loading]);
 
   return (
     <>
       <Container>
         <Player>
-          {loading ? (
+          {useLoading.loading ? (
             <Loader />
           ) : (
             <>
@@ -321,7 +322,7 @@ const MusicPlay = () => {
                     <PlayButton
                       playMusic={playMusic}
                       videoRef={videoRef}
-                      loading={loading}
+                      loading={useLoading.loading}
                     />
                     <ForwardButton videoRef={videoRef} />
                   </ButtonContainer>
