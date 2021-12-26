@@ -41,7 +41,6 @@ const Icon = styled.div`
 const RaidenBox = () => {
   const MUSIC_LF = "currentmusic";
   const IMAGE_LF = "currentimage";
-  const LOADING_LF = "loading";
   const BG_LF = "currentbackground";
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
@@ -110,9 +109,6 @@ const RaidenBox = () => {
       });
       localforage.setItem(BG_LF, {
         bgSrc,
-      });
-      localforage.setItem(LOADING_LF, {
-        loading: false,
       });
     };
     xhr.open("GET", url);
