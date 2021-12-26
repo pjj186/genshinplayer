@@ -182,43 +182,61 @@ const MusicPlay = () => {
   const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(null);
   const [originduration, setOriginDuration] = useState(null);
-  const [durationLoading, setDurationLoading] = useState(true);
-  const [ImgNameLoading, setImgNameLoading] = useState(true);
-  const [BgLoading, setBgLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  // const [durationLoading, setDurationLoading] = useState(true);
+  // const [ImgNameLoading, setImgNameLoading] = useState(true);
+  // const [BgLoading, setBgLoading] = useState(true);
 
-  const loading = durationLoading || ImgNameLoading || BgLoading;
+  // const loading = durationLoading || ImgNameLoading || BgLoading;
 
   let volumeValue = volumeBar; // 볼륨 초깃값
 
-  const getLocalForage = () => {
-    // LocalForage 에서 데이터를 받아와, State에 저장해주는 함수입니다.
-    localforage
-      .getItem(MUSIC_LF)
-      .then((value) => {
+  const getMusicLF = async () => {
+    await localforage.getItem(MUSIC_LF).then((value) => {
+      if (value) {
         setDuration(timeFormat(value.duration));
         setOriginDuration(value.duration);
-      })
-      .then(() => {
-        setDurationLoading(false);
-      });
-    localforage
-      .getItem(IMAGE_LF)
-      .then((value) => {
+      }
+    });
+  };
+
+  const getImageLF = async () => {
+    await localforage.getItem(IMAGE_LF).then((value) => {
+      if (value) {
         setImgSrc(value.imgSrc);
         setName(value.name);
-      })
-      .then(() => {
-        setImgNameLoading(false);
-      });
-    localforage
-      .getItem(BG_LF)
-      .then((value) => {
-        setBgSrc(value.bgSrc);
-      })
-      .then(() => {
-        setBgLoading(false);
-      });
+      }
+    });
   };
+
+  const getBgLF = async () => {
+    await localforage.getItem(BG_LF).then((value) => {
+      if (value) {
+        setBgSrc(value.bgSrc);
+      }
+    });
+  };
+
+  // const getLocalForage = async () => {
+  //   // LocalForage 에서 데이터를 받아와, State에 저장해주는 함수입니다.
+  //   await localforage.getItem(MUSIC_LF).then((value) => {
+  //     if (value) {
+  //       setDuration(timeFormat(value.duration));
+  //       setOriginDuration(value.duration);
+  //     }
+  //   });
+  //   await localforage.getItem(IMAGE_LF).then((value) => {
+  //     if (value) {
+  //       setImgSrc(value.imgSrc);
+  //       setName(value.name);
+  //     }
+  //   });
+  //   await localforage.getItem(BG_LF).then((value) => {
+  //     if (value) {
+  //       setBgSrc(value.bgSrc);
+  //     }
+  //   });
+  // };
 
   // 음악 재생
   const playMusic = () => {
@@ -274,7 +292,9 @@ const MusicPlay = () => {
     const volume = volumeRef.current;
     // localforage가 셋팅되는 시간이 필요하기때문에 딜레이를 살짝 주었다.
     if (loading) {
-      getLocalForage();
+      Promise.all([getMusicLF(), getImageLF(), getBgLF()]).then(
+        setLoading(false)
+      );
     }
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
@@ -284,6 +304,7 @@ const MusicPlay = () => {
       if (!loading) {
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
+        localforage.clear();
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
