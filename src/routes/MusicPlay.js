@@ -190,6 +190,7 @@ const MusicPlay = () => {
   let volumeValue = volumeBar; // 볼륨 초깃값
 
   const getLocalForage = () => {
+    // LocalForage 에서 데이터를 받아와, State에 저장해주는 함수입니다.
     localforage.getItem(MUSIC_LF, (err, value) => {
       if (err) {
         console.log(err);
