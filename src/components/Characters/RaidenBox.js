@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import getBlobDuration from "get-blob-duration";
 import { storageService } from "../../fbase";
@@ -94,32 +94,29 @@ const RaidenBox = () => {
     const duration = await getBlobDuration(url);
 
     const xhr = new XMLHttpRequest();
-    Promise.all([list, meta, url, duration]).then(() => {
-      // getBlobDuration 라이브러리를 통해서 blob의 재생시간을 가져옴!!
-      xhr.responseType = "blob";
-      xhr.onload = function (event) {
-        const blob = xhr.response;
-        // duration을 localforage에 저장했음. state에 저장해서 props로 보내려고했는데 잘 안됬다.
-        localforage.setItem(MUSIC_LF, {
-          name: meta.name,
-          file: blob,
-          duration,
-        });
-        localforage.setItem(IMAGE_LF, {
-          imgSrc,
-          name: "Raiden Shogun",
-        });
-        localforage.setItem(BG_LF, {
-          bgSrc,
-        });
-        localforage.setItem(LOADING_LF, {
-          loading: false,
-        });
-      };
-      xhr.open("GET", url);
-      xhr.send();
-      useLoading.setLoading(false);
-    });
+    // getBlobDuration 라이브러리를 통해서 blob의 재생시간을 가져옴!!
+    xhr.responseType = "blob";
+    xhr.onload = function (event) {
+      const blob = xhr.response;
+      // duration을 localforage에 저장했음. state에 저장해서 props로 보내려고했는데 잘 안됬다.
+      localforage.setItem(MUSIC_LF, {
+        name: meta.name,
+        file: blob,
+        duration,
+      });
+      localforage.setItem(IMAGE_LF, {
+        imgSrc,
+        name: "Raiden Shogun",
+      });
+      localforage.setItem(BG_LF, {
+        bgSrc,
+      });
+      localforage.setItem(LOADING_LF, {
+        loading: false,
+      });
+    };
+    xhr.open("GET", url);
+    xhr.send();
   };
 
   return (
