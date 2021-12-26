@@ -120,11 +120,6 @@ const HutaoBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            bgSrc,
-            name: "Hutao",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>

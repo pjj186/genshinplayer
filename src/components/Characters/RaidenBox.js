@@ -126,11 +126,6 @@ const RaidenBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            bgSrc,
-            name: "Raiden Shogun",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>

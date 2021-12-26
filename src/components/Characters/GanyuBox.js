@@ -120,11 +120,6 @@ const GanyuBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            bgSrc,
-            name: "Ganyu",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>

@@ -120,11 +120,6 @@ const KleeBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            bgSrc,
-            name: "Klee",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>

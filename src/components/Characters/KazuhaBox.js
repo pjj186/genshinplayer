@@ -120,11 +120,6 @@ const KazuhaBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            bgSrc,
-            name: "Kazuha",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>

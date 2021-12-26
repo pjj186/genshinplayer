@@ -120,11 +120,6 @@ const AyakaBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            imgSrc,
-            bgSrc,
-            name: "Ayaka",
-          },
         }}
       >
         <Icon onClick={getMusicFile}>
