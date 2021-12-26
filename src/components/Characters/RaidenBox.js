@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import getBlobDuration from "get-blob-duration";
 import { storageService } from "../../fbase";
@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-regular-svg-icons";
 import localforage from "localforage";
-import { LoadingContext } from "../App";
 
 const Container = styled.div`
   display: flex;
@@ -45,8 +44,6 @@ const RaidenBox = () => {
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
   const RAIDEN = 0;
-
-  const useLoading = useContext(LoadingContext);
 
   // 아바타이미지를 받아온다.
   const getImgFile = async () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import BackwardButton from "../components/common/BackwardButton";
 import ForwardButton from "../components/common/ForwardButton";
@@ -16,7 +16,6 @@ import {
 import localforage from "localforage";
 import Header from "../components/common/Header";
 import Loader from "../components/common/Loader";
-import { LoadingContext } from "../components/App";
 
 const Container = styled.div`
   display: flex;
@@ -183,35 +182,42 @@ const MusicPlay = () => {
   const [timeline, setTimeline] = useState(0);
   const [duration, setDuration] = useState(null);
   const [originduration, setOriginDuration] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [durationLoading, setDurationLoading] = useState(true);
+  const [ImgNameLoading, setImgNameLoading] = useState(true);
+  const [BgLoading, setBgLoading] = useState(true);
 
-  // const useLoading = useContext(LoadingContext);
+  const loading = durationLoading || ImgNameLoading || BgLoading;
 
   let volumeValue = volumeBar; // 볼륨 초깃값
 
   const getLocalForage = () => {
     // LocalForage 에서 데이터를 받아와, State에 저장해주는 함수입니다.
-    localforage.getItem(MUSIC_LF, (err, value) => {
-      if (err) {
-        console.log(err);
-      }
-      setDuration(timeFormat(value.duration));
-      setOriginDuration(value.duration);
-    });
-    localforage.getItem(IMAGE_LF, (err, value) => {
-      if (err) {
-        console.log(err);
-      }
-      setImgSrc(value.imgSrc);
-      setName(value.name);
-    });
-    localforage.getItem(BG_LF, (err, value) => {
-      if (err) {
-        console.log(err);
-      }
-      setBgSrc(value.bgSrc);
-    });
-    setLoading(false);
+    localforage
+      .getItem(MUSIC_LF)
+      .then((value) => {
+        setDuration(timeFormat(value.duration));
+        setOriginDuration(value.duration);
+      })
+      .then(() => {
+        setDurationLoading(false);
+      });
+    localforage
+      .getItem(IMAGE_LF)
+      .then((value) => {
+        setImgSrc(value.imgSrc);
+        setName(value.name);
+      })
+      .then(() => {
+        setImgNameLoading(false);
+      });
+    localforage
+      .getItem(BG_LF)
+      .then((value) => {
+        setBgSrc(value.bgSrc);
+      })
+      .then(() => {
+        setBgLoading(false);
+      });
   };
 
   // 음악 재생
@@ -268,7 +274,7 @@ const MusicPlay = () => {
     const volume = volumeRef.current;
     // localforage가 셋팅되는 시간이 필요하기때문에 딜레이를 살짝 주었다.
     if (loading) {
-      setTimeout(getLocalForage, 3000);
+      getLocalForage();
     }
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
