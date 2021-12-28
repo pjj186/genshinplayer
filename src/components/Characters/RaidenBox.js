@@ -114,7 +114,6 @@ const RaidenBox = () => {
           await localforage
             .getItem(MUSIC_LF)
             .then((value) => {
-              console.log(value);
               LFContext.setDuration(timeFormat(value.duration));
               LFContext.setOriginDuration(value.duration);
             })

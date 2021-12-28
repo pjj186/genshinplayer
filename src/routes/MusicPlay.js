@@ -236,7 +236,6 @@ const MusicPlay = ({ location }) => {
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
-    console.log(loading);
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
