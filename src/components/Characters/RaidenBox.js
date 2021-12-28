@@ -42,6 +42,7 @@ const RaidenBox = () => {
   const MUSIC_LF = "currentmusic";
   const IMAGE_LF = "currentimage";
   const BG_LF = "currentbackground";
+
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
 

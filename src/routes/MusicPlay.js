@@ -165,6 +165,8 @@ const BottomGroup = styled.div`
 `;
 
 const MUSIC_LF = "currentmusic";
+const IMAGE_LF = "currentimage";
+const BG_LF = "currentbackground";
 
 // MusicPlay 컴포넌트
 const MusicPlay = ({ location }) => {
@@ -183,6 +185,9 @@ const MusicPlay = ({ location }) => {
   const loading = LFContext.musicLF || LFContext.imageLF || LFContext.bgLF;
 
   let volumeValue = volumeBar; // 볼륨 초깃값
+
+  // 재생 페이지에서 새로 고침 시, 다시 데이터를 불러오고, 로딩을 끝내줄 함수가 필요함
+  // duration, originDuration, name, img, bg 정보 다시 불러와야함
 
   // 음악 재생
   const playMusic = () => {
@@ -236,12 +241,17 @@ const MusicPlay = ({ location }) => {
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
+
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
     }
     return () => {
       if (!loading) {
+        // Loading Reset
+        LFContext.setMusicLF(true);
+        LFContext.setImageLF(true);
+        LFContext.setBgLF(true);
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
       }
