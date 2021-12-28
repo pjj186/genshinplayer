@@ -129,7 +129,7 @@ const KazuhaBox = () => {
           await localforage
             .getItem(IMAGE_LF)
             .then((value) => {
-              setImgSrc(value.imgSrc);
+              LFContext.setImgSrc(value.imgSrc);
               LFContext.setName(value.name);
             })
             .then(() => {
@@ -144,7 +144,7 @@ const KazuhaBox = () => {
           await localforage
             .getItem(BG_LF)
             .then((value) => {
-              setBgSrc(value.bgSrc);
+              LFContext.setBgSrc(value.bgSrc);
             })
             .then(() => {
               LFContext.setBgLF(false);
@@ -162,10 +162,6 @@ const KazuhaBox = () => {
       <Link
         to={{
           pathname: `/play`,
-          state: {
-            bgSrc,
-            imgSrc,
-          },
         }}
       >
         <Icon onClick={getMusicFile}>

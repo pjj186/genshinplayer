@@ -14,6 +14,8 @@ const App = () => {
   const [duration, setDuration] = useState(null);
   const [originduration, setOriginDuration] = useState(null);
   const [name, setName] = useState("");
+  const [imgSrc, setImgSrc] = useState(null);
+  const [bgSrc, setBgSrc] = useState(null);
 
   return (
     <>
@@ -31,6 +33,10 @@ const App = () => {
           setOriginDuration,
           name,
           setName,
+          bgSrc,
+          setBgSrc,
+          imgSrc,
+          setImgSrc,
         }}
       >
         <GlobalStyles />

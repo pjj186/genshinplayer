@@ -267,13 +267,13 @@ const MusicPlay = ({ location }) => {
             <Loader />
           ) : (
             <>
-              <BackgroundContainer bgSrc={location.state.bgSrc} />
+              <BackgroundContainer bgSrc={LFContext.bgSrc} />
               <Header>
                 <BackLink to="/">
                   <FontAwesomeIcon icon={faBars} />
                 </BackLink>
               </Header>
-              <Avatar imgSrc={location.state.imgSrc} />
+              <Avatar imgSrc={LFContext.imgSrc} />
               <SongTitle>
                 <Title>{LFContext.name}</Title>
               </SongTitle>
