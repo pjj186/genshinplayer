@@ -165,12 +165,9 @@ const BottomGroup = styled.div`
 `;
 
 const MUSIC_LF = "currentmusic";
-// const IMAGE_LF = "currentimage";
-// const BG_LF = "currentbackground";
 
 // MusicPlay 컴포넌트
 const MusicPlay = ({ location }) => {
-  console.log(location.state);
   const LFContext = useContext(AppContext);
 
   const videoRef = useRef();
@@ -183,61 +180,9 @@ const MusicPlay = ({ location }) => {
   const [volumeBar, setVolumeBar] = useState(0.5);
   const [timeline, setTimeline] = useState(0);
 
-  // const [imgSrc, setImgSrc] = useState("");
-  // const [bgSrc, setBgSrc] = useState("");
-  // const [name, setName] = useState("");
-  // const [duration, setDuration] = useState(null);
-  // const [originduration, setOriginDuration] = useState(null);
-
-  // const [durationLoading, setDurationLoading] = useState(true);
-  // const [ImgNameLoading, setImgNameLoading] = useState(true);
-  // const [BgLoading, setBgLoading] = useState(true);
-
   const loading = LFContext.musicLF || LFContext.imageLF || LFContext.bgLF;
-  // const loading = durationLoading || ImgNameLoading || BgLoading;
 
   let volumeValue = volumeBar; // 볼륨 초깃값
-
-  // const getMusicLF = async () => {
-  //   await localforage.getItem(MUSIC_LF).then((value) => {
-  //     setDuration(timeFormat(value.duration));
-  //     setOriginDuration(value.duration);
-  //   });
-  // };
-
-  // const getImageLF = async () => {
-  //   await localforage.getItem(IMAGE_LF).then((value) => {
-  //     setImgSrc(value.imgSrc);
-  //     setName(value.name);
-  //   });
-  // };
-
-  // const getBgLF = async () => {
-  //   await localforage.getItem(BG_LF).then((value) => {
-  //     setBgSrc(value.bgSrc);
-  //   });
-  // };
-
-  // const getLocalForage = async () => {
-  //   // LocalForage 에서 데이터를 받아와, State에 저장해주는 함수입니다.
-  //   await localforage.getItem(MUSIC_LF).then((value) => {
-  //     if (value) {
-  //       setDuration(timeFormat(value.duration));
-  //       setOriginDuration(value.duration);
-  //     }
-  //   });
-  //   await localforage.getItem(IMAGE_LF).then((value) => {
-  //     if (value) {
-  //       setImgSrc(value.imgSrc);
-  //       setName(value.name);
-  //     }
-  //   });
-  //   await localforage.getItem(BG_LF).then((value) => {
-  //     if (value) {
-  //       setBgSrc(value.bgSrc);
-  //     }
-  //   });
-  // };
 
   // 음악 재생
   const playMusic = () => {
@@ -301,7 +246,6 @@ const MusicPlay = ({ location }) => {
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
       }
-      // localforage.clear(); // ummounted 될 때 localforage를 비워줍니다.
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);

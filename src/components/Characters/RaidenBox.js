@@ -45,11 +45,6 @@ const RaidenBox = () => {
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
 
-  // 음악 정보 관련
-  // const [duration, setDuration] = useState(null);
-  // const [originduration, setOriginDuration] = useState(null);
-  // const [name, setName] = useState("");
-
   const LFContext = useContext(AppContext);
 
   const RAIDEN = 0;
@@ -125,7 +120,6 @@ const RaidenBox = () => {
             })
             .then(() => {
               LFContext.setMusicLF(false);
-              console.log("Set MusicLF");
             });
         });
       localforage
@@ -142,7 +136,6 @@ const RaidenBox = () => {
             })
             .then(() => {
               LFContext.setImageLF(false);
-              console.log("Set ImageLF");
             });
         });
       localforage
@@ -157,7 +150,6 @@ const RaidenBox = () => {
             })
             .then(() => {
               LFContext.setBgLF(false);
-              console.log("Set BgLF");
             });
         });
     };
