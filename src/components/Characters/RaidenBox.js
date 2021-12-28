@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import getBlobDuration from "get-blob-duration";
 import { storageService } from "../../fbase";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-regular-svg-icons";
 import localforage from "localforage";
+import { AppContext } from "../App";
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +44,20 @@ const RaidenBox = () => {
   const BG_LF = "currentbackground";
   const [imgSrc, setImgSrc] = useState("");
   const [bgSrc, setBgSrc] = useState("");
+
+  // 음악 정보 관련
+  // const [duration, setDuration] = useState(null);
+  // const [originduration, setOriginDuration] = useState(null);
+  // const [name, setName] = useState("");
+
+  const LFContext = useContext(AppContext);
+
   const RAIDEN = 0;
+
+  const timeFormat = (seconds) => {
+    // 시간 형식을 포맷하는 함수
+    return new Date(seconds * 1000).toISOString().substr(15, 4);
+  };
 
   // 아바타이미지를 받아온다.
   const getImgFile = async () => {
@@ -95,18 +109,57 @@ const RaidenBox = () => {
     xhr.onload = function (event) {
       const blob = xhr.response;
       // duration을 localforage에 저장했음. state에 저장해서 props로 보내려고했는데 잘 안됬다.
-      localforage.setItem(MUSIC_LF, {
-        name: meta.name,
-        file: blob,
-        duration,
-      });
-      localforage.setItem(IMAGE_LF, {
-        imgSrc,
-        name: "Raiden Shogun",
-      });
-      localforage.setItem(BG_LF, {
-        bgSrc,
-      });
+      localforage
+        .setItem(MUSIC_LF, {
+          name: meta.name,
+          file: blob,
+          duration,
+        })
+        .then(async () => {
+          await localforage
+            .getItem(MUSIC_LF)
+            .then((value) => {
+              console.log(value);
+              LFContext.setDuration(timeFormat(value.duration));
+              LFContext.setOriginDuration(value.duration);
+            })
+            .then(() => {
+              LFContext.setMusicLF(false);
+              console.log("Set MusicLF");
+            });
+        });
+      localforage
+        .setItem(IMAGE_LF, {
+          imgSrc,
+          name: "Raiden Shogun",
+        })
+        .then(async () => {
+          await localforage
+            .getItem(IMAGE_LF)
+            .then((value) => {
+              setImgSrc(value.imgSrc);
+              LFContext.setName(value.name);
+            })
+            .then(() => {
+              LFContext.setImageLF(false);
+              console.log("Set ImageLF");
+            });
+        });
+      localforage
+        .setItem(BG_LF, {
+          bgSrc,
+        })
+        .then(async () => {
+          await localforage
+            .getItem(BG_LF)
+            .then((value) => {
+              setBgSrc(value.bgSrc);
+            })
+            .then(() => {
+              LFContext.setBgLF(false);
+              console.log("Set BgLF");
+            });
+        });
     };
     xhr.open("GET", url);
     xhr.send();
@@ -119,6 +172,10 @@ const RaidenBox = () => {
       <Link
         to={{
           pathname: `/play`,
+          state: {
+            bgSrc,
+            imgSrc,
+          },
         }}
       >
         <Icon onClick={getMusicFile}>

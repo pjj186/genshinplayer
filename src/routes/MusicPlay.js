@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import BackwardButton from "../components/common/BackwardButton";
 import ForwardButton from "../components/common/ForwardButton";
@@ -16,6 +16,7 @@ import {
 import localforage from "localforage";
 import Header from "../components/common/Header";
 import Loader from "../components/common/Loader";
+import { AppContext } from "../components/App";
 
 const Container = styled.div`
   display: flex;
@@ -164,10 +165,14 @@ const BottomGroup = styled.div`
 `;
 
 const MUSIC_LF = "currentmusic";
-const IMAGE_LF = "currentimage";
-const BG_LF = "currentbackground";
+// const IMAGE_LF = "currentimage";
+// const BG_LF = "currentbackground";
 
-const MusicPlay = () => {
+// MusicPlay 컴포넌트
+const MusicPlay = ({ location }) => {
+  console.log(location.state);
+  const LFContext = useContext(AppContext);
+
   const videoRef = useRef();
   const volumeRef = useRef();
   const currentTime = useRef();
@@ -175,47 +180,43 @@ const MusicPlay = () => {
   const timelineel = useRef();
 
   const [srcValue, setSrcValue] = useState("");
-  const [imgSrc, setImgSrc] = useState("");
-  const [bgSrc, setBgSrc] = useState("");
-  const [name, setName] = useState("");
   const [volumeBar, setVolumeBar] = useState(0.5);
   const [timeline, setTimeline] = useState(0);
-  const [duration, setDuration] = useState(null);
-  const [originduration, setOriginDuration] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+  // const [imgSrc, setImgSrc] = useState("");
+  // const [bgSrc, setBgSrc] = useState("");
+  // const [name, setName] = useState("");
+  // const [duration, setDuration] = useState(null);
+  // const [originduration, setOriginDuration] = useState(null);
+
   // const [durationLoading, setDurationLoading] = useState(true);
   // const [ImgNameLoading, setImgNameLoading] = useState(true);
   // const [BgLoading, setBgLoading] = useState(true);
 
+  const loading = LFContext.musicLF || LFContext.imageLF || LFContext.bgLF;
   // const loading = durationLoading || ImgNameLoading || BgLoading;
 
   let volumeValue = volumeBar; // 볼륨 초깃값
 
-  const getMusicLF = async () => {
-    await localforage.getItem(MUSIC_LF).then((value) => {
-      if (value) {
-        setDuration(timeFormat(value.duration));
-        setOriginDuration(value.duration);
-      }
-    });
-  };
+  // const getMusicLF = async () => {
+  //   await localforage.getItem(MUSIC_LF).then((value) => {
+  //     setDuration(timeFormat(value.duration));
+  //     setOriginDuration(value.duration);
+  //   });
+  // };
 
-  const getImageLF = async () => {
-    await localforage.getItem(IMAGE_LF).then((value) => {
-      if (value) {
-        setImgSrc(value.imgSrc);
-        setName(value.name);
-      }
-    });
-  };
+  // const getImageLF = async () => {
+  //   await localforage.getItem(IMAGE_LF).then((value) => {
+  //     setImgSrc(value.imgSrc);
+  //     setName(value.name);
+  //   });
+  // };
 
-  const getBgLF = async () => {
-    await localforage.getItem(BG_LF).then((value) => {
-      if (value) {
-        setBgSrc(value.bgSrc);
-      }
-    });
-  };
+  // const getBgLF = async () => {
+  //   await localforage.getItem(BG_LF).then((value) => {
+  //     setBgSrc(value.bgSrc);
+  //   });
+  // };
 
   // const getLocalForage = async () => {
   //   // LocalForage 에서 데이터를 받아와, State에 저장해주는 함수입니다.
@@ -290,12 +291,7 @@ const MusicPlay = () => {
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
-    // localforage가 셋팅되는 시간이 필요하기때문에 딜레이를 살짝 주었다.
-    if (loading) {
-      Promise.all([getMusicLF(), getImageLF(), getBgLF()]).then(
-        setLoading(false)
-      );
-    }
+    console.log(loading);
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
@@ -304,8 +300,8 @@ const MusicPlay = () => {
       if (!loading) {
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
-        localforage.clear();
       }
+      // localforage.clear(); // ummounted 될 때 localforage를 비워줍니다.
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
@@ -318,15 +314,15 @@ const MusicPlay = () => {
             <Loader />
           ) : (
             <>
-              <BackgroundContainer bgSrc={bgSrc} />
+              <BackgroundContainer bgSrc={location.state.bgSrc} />
               <Header>
                 <BackLink to="/">
                   <FontAwesomeIcon icon={faBars} />
                 </BackLink>
               </Header>
-              <Avatar imgSrc={imgSrc} />
+              <Avatar imgSrc={location.state.imgSrc} />
               <SongTitle>
-                <Title>{name}</Title>
+                <Title>{LFContext.name}</Title>
               </SongTitle>
               <SongController>
                 <TimeLineGroup>
@@ -335,14 +331,14 @@ const MusicPlay = () => {
                     step="1"
                     value={timeline}
                     min="0"
-                    max={originduration}
+                    max={LFContext.originduration}
                     ref={timelineel}
                     onChange={handleTimelineChange}
                   />
                   <TimeBox>
                     <CurrentTimeBox ref={currentTime}>0:00</CurrentTimeBox>
                     <TotalTimeBox ref={totalTime}>
-                      {duration ? duration : "0:00"}
+                      {LFContext.duration ? LFContext.duration : "0:00"}
                     </TotalTimeBox>
                   </TimeBox>
                 </TimeLineGroup>

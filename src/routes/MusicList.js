@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/common/Header";
 import RaidenBox from "../components/Characters/RaidenBox";
@@ -7,6 +7,7 @@ import KazuhaBox from "../components/Characters/KazuhaBox";
 import KleeBox from "../components/Characters/KleeBox";
 import AyakaBox from "../components/Characters/AyakaBox";
 import GanyuBox from "../components/Characters/GanyuBox";
+import { AppContext } from "../components/App";
 
 const Container = styled.div`
   display: flex;
@@ -59,6 +60,12 @@ const ListBox = styled.div`
 `;
 
 const MusicList = () => {
+  const LFContext = useContext(AppContext);
+  useEffect(() => {
+    LFContext.setMusicLF(true);
+    LFContext.setImageLF(true);
+    LFContext.setBgLF(true);
+  }, [LFContext]);
   return (
     <Container>
       <Player>
