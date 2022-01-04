@@ -238,6 +238,12 @@ const MusicPlay = ({ location }) => {
     return new Date(seconds * 1000).toISOString().substr(15, 4);
   };
 
+  // 새로고침 했을 때, localforage에 있는 데이터들을 Context State에 다시 저장하는 함수를 만들어보자
+  const reloadData = () => {
+    // 1. 우선, 로컬 포리지에 값이 저장 되 있을때만 작동하게 만들어야함. (로컬 포리지 DOCS를 참고해서 쓸수 있는 메서드가 있는지 알아보자.)
+    // 2. 그 다음은 그냥 getitem 해서 Context State에 값만 넣어주면 될것같음! * 캐릭터 박스에 있는 로직을 쓰면 될것같다.
+  };
+
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
