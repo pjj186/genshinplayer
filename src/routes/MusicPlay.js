@@ -13,7 +13,7 @@ import {
   faVolumeUp,
   faVolumeOff,
 } from "@fortawesome/free-solid-svg-icons";
-import localforage from "localforage";
+import localforage, { key } from "localforage";
 import Header from "../components/common/Header";
 import Loader from "../components/common/Loader";
 import { AppContext } from "../components/App";
@@ -184,6 +184,7 @@ const MusicPlay = ({ location }) => {
 
   const loading = LFContext.musicLF || LFContext.imageLF || LFContext.bgLF;
 
+  // console.log(localkeys);
   let volumeValue = volumeBar; // 볼륨 초깃값
 
   // 재생 페이지에서 새로 고침 시, 다시 데이터를 불러오고, 로딩을 끝내줄 함수가 필요함
@@ -238,16 +239,57 @@ const MusicPlay = ({ location }) => {
     return new Date(seconds * 1000).toISOString().substr(15, 4);
   };
 
+  const getMusicInfo = async () => {
+    await localforage
+      .getItem(MUSIC_LF)
+      .then((value) => {
+        LFContext.setDuration(timeFormat(value.duration));
+        LFContext.setOriginDuration(value.duration);
+      })
+      .then(() => {
+        LFContext.setMusicLF(false);
+      });
+  };
+
+  const getImageInfo = async () => {
+    await localforage
+      .getItem(IMAGE_LF)
+      .then((value) => {
+        LFContext.setImgSrc(value.imgSrc);
+        LFContext.setName(value.name);
+      })
+      .then(() => {
+        LFContext.setImageLF(false);
+      });
+  };
+
+  const getBgInfo = async () => {
+    await localforage
+      .getItem(BG_LF)
+      .then((value) => {
+        LFContext.setBgSrc(value.bgSrc);
+      })
+      .then(() => {
+        LFContext.setBgLF(false);
+      });
+  };
   // 새로고침 했을 때, localforage에 있는 데이터들을 Context State에 다시 저장하는 함수를 만들어보자
-  const reloadData = () => {
-    // 1. 우선, 로컬 포리지에 값이 저장 되 있을때만 작동하게 만들어야함. (로컬 포리지 DOCS를 참고해서 쓸수 있는 메서드가 있는지 알아보자.)
+  const reloadData = async () => {
+    // 1. 우선, 로컬 포리지에 값이 저장돼있을때만 작동하게 만들어야함. (로컬 포리지 DOCS를 참고해서 쓸수 있는 메서드가 있는지 알아보자.)
     // 2. 그 다음은 그냥 getitem 해서 Context State에 값만 넣어주면 될것같음! * 캐릭터 박스에 있는 로직을 쓰면 될것같다.
+    await localforage.keys().then((res) => {
+      if (res.length == 3) {
+        getMusicInfo();
+        getImageInfo();
+        getBgInfo();
+      }
+    });
   };
 
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
-
+    reloadData();
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
