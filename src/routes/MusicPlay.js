@@ -278,7 +278,7 @@ const MusicPlay = ({ location }) => {
     // 1. 우선, 로컬 포리지에 값이 저장돼있을때만 작동하게 만들어야함. (로컬 포리지 DOCS를 참고해서 쓸수 있는 메서드가 있는지 알아보자.)
     // 2. 그 다음은 그냥 getitem 해서 Context State에 값만 넣어주면 될것같음! * 캐릭터 박스에 있는 로직을 쓰면 될것같다.
     await localforage.keys().then((res) => {
-      if (res.length == 3) {
+      if (res.length === 3) {
         getMusicInfo();
         getImageInfo();
         getBgInfo();
@@ -300,6 +300,7 @@ const MusicPlay = ({ location }) => {
         LFContext.setMusicLF(true);
         LFContext.setImageLF(true);
         LFContext.setBgLF(true);
+        localforage.clear();
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
       }
