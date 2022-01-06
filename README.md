@@ -2,7 +2,7 @@
 
 Genshin Impact 컨셉의 뮤직 플레이어
 
-## Skills
+## Use
 
 - [x] Firebase
 - [x] React
