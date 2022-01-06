@@ -13,7 +13,7 @@ import {
   faVolumeUp,
   faVolumeOff,
 } from "@fortawesome/free-solid-svg-icons";
-import localforage, { key } from "localforage";
+import localforage from "localforage";
 import Header from "../components/common/Header";
 import Loader from "../components/common/Loader";
 import { AppContext } from "../components/App";
