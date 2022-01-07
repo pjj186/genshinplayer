@@ -21,8 +21,8 @@ const ForwardButton = ({ videoRef }) => {
     videoRef.current.currentTime += 10;
   };
   return (
-    <ForwardButtonContainer>
-      <FontAwesomeIcon icon={faForward} onClick={handleForward} />
+    <ForwardButtonContainer onClick={handleForward}>
+      <FontAwesomeIcon icon={faForward} />
     </ForwardButtonContainer>
   );
 };

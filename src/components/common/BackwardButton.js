@@ -21,8 +21,8 @@ const BackwardButton = ({ videoRef }) => {
     videoRef.current.currentTime -= 10;
   };
   return (
-    <BackwardButtonContainer>
-      <FontAwesomeIcon icon={faBackward} onClick={handleBackward} />
+    <BackwardButtonContainer onClick={handleBackward}>
+      <FontAwesomeIcon icon={faBackward} />
     </BackwardButtonContainer>
   );
 };
