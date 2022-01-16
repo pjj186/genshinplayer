@@ -280,6 +280,10 @@ const MusicPlay = ({ location }) => {
     });
   };
 
+  const handleDeviceChange = () => {
+    console.log("Device Change");
+  };
+
   useEffect(() => {
     const video = videoRef.current;
     const volume = volumeRef.current;
@@ -287,6 +291,10 @@ const MusicPlay = ({ location }) => {
     if (!loading) {
       volume.addEventListener("input", handleVolumeChange);
       video.addEventListener("timeupdate", handleTimeUpdate);
+      navigator.mediaDevices.addEventListener(
+        "devicechange",
+        handleDeviceChange
+      );
     }
     return () => {
       if (!loading) {
@@ -297,6 +305,10 @@ const MusicPlay = ({ location }) => {
         localforage.clear();
         video.removeEventListener("timeupdate", handleTimeUpdate);
         volume.removeEventListener("input", handleVolumeChange);
+        navigator.mediaDevices.removeEventListener(
+          "devicechange",
+          handleDeviceChange
+        );
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
