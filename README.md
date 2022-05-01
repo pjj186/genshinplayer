@@ -2,6 +2,8 @@
 
 Genshin Impact 컨셉의 뮤직 플레이어
 
+리액트 연습겸 만든 토이프로젝트입니다.
+
 # Use
 
 ## React
